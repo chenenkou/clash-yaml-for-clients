@@ -1,0 +1,70 @@
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  nameserver:
+    - system
+
+tun:
+  enable: false
+  stack: gvisor
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+
+p: &p
+  type: http
+  interval: 3600
+  health-check:
+    enable: true
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+
+use: &use
+  use: 
+    - provider1
+    - provider2
+
+proxy-providers:
+  provider1: 
+    <<: *p
+    path: ./proxy_providers/provider1.yaml
+    url: ""
+  provider2: 
+    <<: *p
+    type: file
+    path: ./provider2.yaml
+
+proxy-groups: 
+  - name: 代理
+    type: select
+    proxies:
+      - 自动
+    <<: *use
+  - name: 自动
+    type: url-test
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    <<: *use
+  - name: 美国
+    type: url-test
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    lazy: true
+    filter: "美|\U0001F1FA\U0001F1F2|(?i)States|American"
+    <<: *use
+
+rule-providers: 
+  openai: 
+    type: http
+    behavior: domain
+    path: ./rule_providers/openai.yaml
+    url: https://rules.kr328.app/openai.yaml
+    interval: 600
+
+rules: 
+  - RULE-SET,openai,美国
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,代理
