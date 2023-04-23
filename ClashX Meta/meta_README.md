@@ -73,7 +73,7 @@ proxy-providers:
 - `*p`: 引用了命名锚点(p)的配置。
 - `path`: 配置文件路径。
 - `url`: 配置文件URL地址。
-- `provider2`: 第二个
+- `provider2`: 第二个代理提供者的配置项。
 - `nameserver`: 定义DNS服务器，这里设置为使用系统默认的DNS服务器。
 - `tun`: 定义TUN模式的参数，这里禁用了TUN模式。
 - `p` 和 `use`: 定义了两个 YAML 锚点，方便其他地方进行引用。
