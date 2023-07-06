@@ -28,7 +28,7 @@ use: &use
 proxy-providers:
   provider1: 
     <<: *p
-    path: ./proxy_providers/provider1.yaml
+    path: ./providers/proxy/provider1.yaml
     url: ""
   provider2: 
     <<: *p
@@ -59,7 +59,7 @@ rule-providers:
   openai: 
     type: http
     behavior: domain
-    path: ./rule_providers/openai.yaml
+    path: ./providers/rule/openai.yaml
     url: https://rules.kr328.app/openai.yaml
     interval: 600
 

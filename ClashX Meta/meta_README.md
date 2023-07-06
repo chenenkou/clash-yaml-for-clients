@@ -60,7 +60,7 @@ use: &use
 proxy-providers:
   provider1: 
     <<: *p
-    path: ./proxy_providers/provider1.yaml
+    path: ./providers/proxy/provider1.yaml
     url: ""
   provider2: 
     <<: *p
